@@ -1,2 +1,2 @@
 # Parallel_Distributed_Testing
-Parallel &amp; Distributed testing with testng and Selenium Grid
+Parallel &amp; Distributed testing with TestNG and Selenium Grid
