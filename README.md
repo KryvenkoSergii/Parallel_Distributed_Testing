@@ -21,24 +21,24 @@ Setup Selenium Grid nodeconfig1.json file:
 	{
 	  "capabilities":
 	  [
-		{
-		  "browserName": "firefox",
+	    {
+	      "browserName": "firefox",
 		  "version": "90",
-		  "maxInstances": 10,
-		  "seleniumProtocol": "WebDriver"
-		},
-		{
-		  "browserName": "chrome",
+	      "maxInstances": 10,
+	      "seleniumProtocol": "WebDriver"
+	    },
+	    {
+	      "browserName": "chrome",
 		  "version": "92",
-		  "maxInstances": 10,
-		  "seleniumProtocol": "WebDriver"
-		},
+	      "maxInstances": 10,
+	      "seleniumProtocol": "WebDriver"
+	    },
 		{
-		  "browserName": "edge",
+	      "browserName": "edge",
 		  "version": "92",
-		  "maxInstances": 10,
-		  "seleniumProtocol": "WebDriver"
-		}
+	      "maxInstances": 10,
+	      "seleniumProtocol": "WebDriver"
+	    }
 	  ],
 	  "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
 	  "maxSession": 20,
@@ -61,24 +61,24 @@ Setup Selenium Grid nodeconfig2.json file:
 	{
 	  "capabilities":
 	  [
-		{
-		  "browserName": "firefox",
+	    {
+	      "browserName": "firefox",
 		  "version": "90",
-		  "maxInstances": 10,
-		  "seleniumProtocol": "WebDriver"
-		},
-		{
-		  "browserName": "chrome",
+	      "maxInstances": 10,
+	      "seleniumProtocol": "WebDriver"
+	    },
+	    {
+	      "browserName": "chrome",
 		  "version": "92",
-		  "maxInstances": 10,
-		  "seleniumProtocol": "WebDriver"
-		},
+	      "maxInstances": 10,
+	      "seleniumProtocol": "WebDriver"
+	    },
 		{
-		  "browserName": "edge",
+	      "browserName": "edge",
 		  "version": "92",
-		  "maxInstances": 10,
-		  "seleniumProtocol": "WebDriver"
-		}
+	      "maxInstances": 10,
+	      "seleniumProtocol": "WebDriver"
+	    }
 	  ],
 	  "proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
 	  "maxSession": 20,
