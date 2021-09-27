@@ -1,8 +1,12 @@
 package com.softserve.business;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 
 import com.softserve.pages.HomePage;
+import com.softserve.pages.SearchVideoResult;
+import com.softserve.pages.VideoPage;
 
 public class SearchVideoActions {
 
@@ -32,4 +36,22 @@ public class SearchVideoActions {
         return homePage.isResultTitlesHaveWords(searchText);
     }
 
+    public SearchVideoResult getShortestVideoFromFirst10Results() {
+        List<SearchVideoResult> searchVideoResultList = homePage.getFirst10ResultsOfSearch();
+        SearchVideoResult shortestVideo = searchVideoResultList.get(0);
+        for (SearchVideoResult searchVideoResult : searchVideoResultList) {
+            if(shortestVideo.getDurationSec()>searchVideoResult.getDurationSec()) {
+                shortestVideo = searchVideoResult;
+            }
+        }
+        return shortestVideo;
+    }
+    
+    public List<SearchVideoResult> get10VideoResults(){
+        return homePage.getFirst10ResultsOfSearch();
+    }
+    
+    public VideoPage openVideo(SearchVideoResult searchVideoResult) {
+        return homePage.openVideoPage(searchVideoResult);
+    }
 }

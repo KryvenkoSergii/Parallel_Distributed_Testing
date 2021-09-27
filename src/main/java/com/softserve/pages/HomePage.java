@@ -1,7 +1,9 @@
 package com.softserve.pages;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -21,7 +23,7 @@ public class HomePage extends BasePage {
     @FindBy(id = "search-icon-legacy")
     protected WebElement searchButton;
 
-    @FindBy(css = "#contents #title-wrapper #video-title")
+    @FindBy(css = "#contents>ytd-video-renderer")
     protected List<WebElement> searchResults;
 
     @FindBy(css = "ytd-app #content>#page-manager #header-container #filter-menu")
@@ -83,13 +85,40 @@ public class HomePage extends BasePage {
         logger.info("check if Search result titles have words: " + searchText);
         String[] words = searchText.split(" ");
         for (String word : words) {
-            for (WebElement title : searchResults) {
-                if (title.getText().toLowerCase().contains(word.toLowerCase())) {
+            for (WebElement result : searchResults) {
+                String title = result.findElement(By.cssSelector("#title-wrapper #video-title")).getText();
+                if (title.toLowerCase().contains(word.toLowerCase())) {
                     return true;
                 }
             }
         }
         return false;
+    }
+    
+    public List<SearchVideoResult> getResultListOfSearch(){
+        wait.visibilityOfWebElement(filterMenu);
+        List<SearchVideoResult> searchVideoResultList = new ArrayList<SearchVideoResult>();
+        for (WebElement result : searchResults) {
+            searchVideoResultList.add(new SearchVideoResult(result));
+        }
+        return searchVideoResultList;
+    }
+    
+    public List<SearchVideoResult> getFirst10ResultsOfSearch(){
+        wait.visibilityOfWebElement(filterMenu);
+        List<SearchVideoResult> searchVideoResultList = new ArrayList<SearchVideoResult>();
+        for (int i = 0; i < 10; i++) {
+            searchVideoResultList.add(new SearchVideoResult(searchResults.get(i)));
+        }
+        return searchVideoResultList;
+    }
+    
+    public VideoPage openVideoPage(SearchVideoResult searchVideoResult) {
+        wait.visibilityOfWebElement(filterMenu);
+        searchVideoResult.getLink().click();
+        VideoPage videoPage = new VideoPage(driver);
+        videoPage.skipAdVideo();
+        return videoPage;
     }
 
 }

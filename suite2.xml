@@ -2,26 +2,28 @@
 
 <suite name="Parallel_Distributed_Testing_Suite1" data-provider-thread-count="2">
 
-    <!-- <test name="Parallel_Distributed_Testing_Chrome" parallel="methods" thread-count="2">
+    <test name="Parallel_Distributed_Testing_Chrome" parallel="methods" thread-count="2">
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="com.softserve.tests.TestClass2">
                 <methods>
-                    <include name="checkTitleResultsYouTube"/>
+                    <!-- <include name="checkTitleResultsYouTube"/> -->
+                    <include name="checkVideoRewind"/>
                 </methods>
             </class>
         </classes>
-    </test> -->
+    </test>
 
-    <test name="Parallel_Distributed_Testing_Firefox" verbose="2">
+    <!-- <test name="Parallel_Distributed_Testing_Firefox" verbose="2">
         <parameter name="browser" value="firefox"/>
        <classes>
             <class name="com.softserve.tests.TestClass2">
                 <methods>
                     <include name="checkTitleResultsYouTube"/>
+                    <include name="checkVideoRewind"/>
                 </methods>
             </class>
         </classes>
-    </test>
+    </test> -->
     
 </suite>

@@ -19,7 +19,7 @@ public class ExplicitWaitUtil {
 
     public ExplicitWaitUtil(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, readProjectProperties.getImplicitWaitDelay());
+        this.wait = new WebDriverWait(driver, readProjectProperties.geExplicitWaitDelay());
     }
     
     public void elementToBeClickable(WebElement webElement) {
@@ -51,6 +51,14 @@ public class ExplicitWaitUtil {
         driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         wait.until(ExpectedConditions
                 .elementToBeSelected(webElement));
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    }
+    
+    public void elementHasStyleDisplayNone(String selectorXPath) {
+        logger.trace("wait until an element has CSS Style");
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        wait.until(ExpectedConditions
+                .presenceOfElementLocated(By.xpath(selectorXPath + "[contains(@style, 'display: none')]")));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
     

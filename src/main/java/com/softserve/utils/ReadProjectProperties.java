@@ -21,6 +21,10 @@ public class ReadProjectProperties {
     public int getImplicitWaitDelay() {
         return Integer.parseInt(properties.getProperty("implicit.wait.delay"));
     }
+    
+    public int geExplicitWaitDelay() {
+        return Integer.parseInt(properties.getProperty("explicit.wait.delay"));
+    }
 
     public String getBaseUrl() {
         return properties.getProperty("url.youtube");
