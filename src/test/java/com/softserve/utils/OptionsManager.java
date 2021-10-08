@@ -6,9 +6,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 public class OptionsManager {
 
     public static ChromeOptions getChromeOptions() {
+        WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("start-maximized");
         chromeOptions.addArguments("--ignore-certificate-errors");
@@ -17,6 +20,7 @@ public class OptionsManager {
     }
 
     public static FirefoxOptions getFirefoxOptions() {
+        WebDriverManager.firefoxdriver().setup();
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.addArguments("--start-maximised");
         FirefoxProfile profile = new FirefoxProfile();
@@ -27,6 +31,7 @@ public class OptionsManager {
     }
     
     public static EdgeOptions getEdgeOptions() {
+        WebDriverManager.edgedriver().setup();
         EdgeOptions edgeOptions = new EdgeOptions();
         edgeOptions.setCapability("browser", "Edge");
         edgeOptions.setCapability("acceptSslCerts", true);

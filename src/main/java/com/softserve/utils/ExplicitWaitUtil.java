@@ -1,25 +1,97 @@
 package com.softserve.utils;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.awaitility.Awaitility.await;
+
 public class ExplicitWaitUtil {
+    
+    private static final int PAGE_LOAD_TIMEOUT = 60;
+    private static final int ELEMENT_PRESENT_TIMEOUT = 30;
+    private static final int ELEMENT_CONDITION_TIMEOUT = 45;
+    private static final int POLLING_INTERVAL = 5;
+    private static final int SCRIPT_TIMEOUT = 90;
+    private static final int CONDITION_MET_TIMEOUT = 120;
+    
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static ReadProjectProperties readProjectProperties = new ReadProjectProperties();
+    
     private WebDriver driver;
     private WebDriverWait wait;
+    private FluentWait fluentWait;
+    private JavascriptExecutor jsExecutor;
+    private ConditionFactory await;
 
     public ExplicitWaitUtil(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, readProjectProperties.geExplicitWaitDelay());
+//        this.wait = new WebDriverWait(driver, readProjectProperties.geExplicitWaitDelay());
+        this.wait = new WebDriverWait(driver, 30);
+    }
+    
+ // Implicit wait - all elements
+    public void setImplicitWait(int timeout) {
+        driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
+    }
+
+    public void setPageLoad(int timeout) {
+        driver.manage().timeouts().pageLoadTimeout(timeout, TimeUnit.SECONDS);
+    }
+
+    // Explicit wait - specific elements
+    public void waitFor(ExpectedCondition condition) {
+        setImplicitWait(0);
+        wait.until(condition);
+        setImplicitWait(ELEMENT_PRESENT_TIMEOUT);
+    }
+
+    // Fluent wait
+    public void setFluentWait() {
+        fluentWait = wait
+                .withTimeout(Duration.of(ELEMENT_CONDITION_TIMEOUT, ChronoUnit.SECONDS))
+                .pollingEvery(Duration.of(POLLING_INTERVAL, ChronoUnit.SECONDS))
+                .ignoring(WebDriverException.class);
+    }
+
+    // Explicit fluent wait - specific elements
+    public void waitForFluently(ExpectedCondition condition) {
+        setImplicitWait(0);
+        setFluentWait();
+        fluentWait.until(condition);
+        setImplicitWait(ELEMENT_PRESENT_TIMEOUT);
+    }
+
+    public void setJsExecutor() {
+        jsExecutor = (JavascriptExecutor) driver;
+    }
+
+    // Script wait
+    public void setScriptTimeout(int timeout) {
+        driver.manage().timeouts().setScriptTimeout(timeout, TimeUnit.SECONDS);
+    }
+
+    public void setAwait() {
+        await = await().atMost(CONDITION_MET_TIMEOUT, TimeUnit.SECONDS)
+                .pollInterval(POLLING_INTERVAL, TimeUnit.SECONDS);
+    }
+
+    public void awaitFor(Callable<Boolean> condition) {
+        await.until(condition);
     }
     
     public void elementToBeClickable(WebElement webElement) {
@@ -38,11 +110,27 @@ public class ExplicitWaitUtil {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
     
+    public void invisibilityOfWebElement(WebElement webElement) {
+        logger.trace("wait until a webElement is visible");
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        wait.until(ExpectedConditions
+                .invisibilityOf(webElement));
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    }
+    
     public void presenceOfElementLocated(By locator) {
         logger.trace("wait until an element is present");
         driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         wait.until(ExpectedConditions
                 .presenceOfElementLocated(locator));
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+    }
+    
+    public void absenceOfElementLocated(By locator) {
+        logger.trace("wait until an element is absence");
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        wait.until(ExpectedConditions.not(ExpectedConditions
+                .presenceOfElementLocated(locator)));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     }
     

@@ -44,14 +44,29 @@ public class SearchVideoActions {
                 shortestVideo = searchVideoResult;
             }
         }
+//        System.out.println("shortestVideo Title - " + shortestVideo.getTitle());
+//        System.out.println("shortestVideo Duration - " + shortestVideo.getDurationSec());
         return shortestVideo;
+    }
+    
+    public SearchVideoResult getLongestVideoFromFirst10Results() {
+        List<SearchVideoResult> searchVideoResultList = homePage.getFirst10ResultsOfSearch();
+        SearchVideoResult longestVideo = searchVideoResultList.get(0);
+        for (SearchVideoResult searchVideoResult : searchVideoResultList) {
+            if(longestVideo.getDurationSec()<searchVideoResult.getDurationSec()) {
+                longestVideo = searchVideoResult;
+            }
+        }
+//        System.out.println("shortestVideo Title - " + shortestVideo.getTitle());
+//        System.out.println("shortestVideo Duration - " + shortestVideo.getDurationSec());
+        return longestVideo;
     }
     
     public List<SearchVideoResult> get10VideoResults(){
         return homePage.getFirst10ResultsOfSearch();
     }
     
-    public VideoPage openVideo(SearchVideoResult searchVideoResult) {
+    public VideoPage openVideo(SearchVideoResult searchVideoResult) throws Exception {
         return homePage.openVideoPage(searchVideoResult);
     }
 }

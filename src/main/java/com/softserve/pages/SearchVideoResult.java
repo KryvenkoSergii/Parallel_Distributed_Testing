@@ -27,6 +27,8 @@ public class SearchVideoResult {
 
     private void setDuration(WebElement searchResult) {
         String text = searchResult.findElement(By.cssSelector("#overlays #text")).getAttribute("aria-label");
+//        System.out.println("---setDuration text = " + text);
+//        System.out.println("---setDuration RegexUtils.getTime(text) = " + RegexUtils.getTime(text));
         this.durationSec = RegexUtils.getTime(text);
     }
 

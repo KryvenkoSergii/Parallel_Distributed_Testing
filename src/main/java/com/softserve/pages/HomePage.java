@@ -29,11 +29,8 @@ public class HomePage extends BasePage {
     @FindBy(css = "ytd-app #content>#page-manager #header-container #filter-menu")
     protected WebElement filterMenu;
 
-    ExplicitWaitUtil wait;
-
     public HomePage(WebDriver driver) {
         super(driver);
-        wait = new ExplicitWaitUtil(driver);
     }
 
     @Step(value = "open URL address {0}")
@@ -105,7 +102,8 @@ public class HomePage extends BasePage {
     }
     
     public List<SearchVideoResult> getFirst10ResultsOfSearch(){
-        wait.visibilityOfWebElement(filterMenu);
+//        wait.visibilityOfWebElement(filterMenu);
+        wait.awaitFor(() -> searchResults.size()>=10); // Waiting with awaitillity
         List<SearchVideoResult> searchVideoResultList = new ArrayList<SearchVideoResult>();
         for (int i = 0; i < 10; i++) {
             searchVideoResultList.add(new SearchVideoResult(searchResults.get(i)));
@@ -113,11 +111,10 @@ public class HomePage extends BasePage {
         return searchVideoResultList;
     }
     
-    public VideoPage openVideoPage(SearchVideoResult searchVideoResult) {
+    public VideoPage openVideoPage(SearchVideoResult searchVideoResult) throws Exception {
         wait.visibilityOfWebElement(filterMenu);
         searchVideoResult.getLink().click();
         VideoPage videoPage = new VideoPage(driver);
-        videoPage.skipAdVideo();
         return videoPage;
     }
 

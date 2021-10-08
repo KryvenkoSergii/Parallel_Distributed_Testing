@@ -8,7 +8,8 @@
             <class name="com.softserve.tests.TestClass2">
                 <methods>
                     <!-- <include name="checkTitleResultsYouTube"/> -->
-                    <include name="checkVideoRewind"/>
+                    <!-- <include name="checkShortestVideoRewind"/> -->
+                    <include name="checkLongestVideoRewind"/>
                 </methods>
             </class>
         </classes>
