@@ -12,6 +12,7 @@ import com.softserve.pages.VideoPage;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Link;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
@@ -41,6 +42,12 @@ public class TestClass2 extends TestRunner {
                 "result titles don't contain any search words: " + searchText);
     }
 
+    @Epic("Parallel DataProvider and Selenium Grid")
+    @Feature(value = "Search videos by keyword, choose the shortest video from the first 10 results, check if the next video is available")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Description("Go to TouTube, make a search by sentence, choose the shortest video from the first 10 results, check if the next video is available.")
+    @Story(value = "Go to TouTube, make a search by sentence, choose the shortest video from the first 10 results, check if the next video is available.")
+    @Link(value = "https://www.youtube.com/")
     @Test(dataProvider = "searchSentenceData")
     public void checkShortestVideoRewind(final String searchText) throws Exception {
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
@@ -69,6 +76,12 @@ public class TestClass2 extends TestRunner {
                 .describedAs("Test failed current Time mark doesn't equal duration");
     }
 
+    @Epic("Parallel DataProvider and Selenium Grid")
+    @Feature(value = "Search videos by keyword, choose the longest video from the first 10 results, check if the next video is available, check if a countdown is displayed")
+    @Severity(SeverityLevel.TRIVIAL)
+    @Description("Go to TouTube, make a search by sentence, choose the longest video from the first 10 results, check if the next video is available, check if a countdown is displayed.")
+    @Story(value = "Go to TouTube, make a search by sentence, choose the longest video from the first 10 results, check if the next video is available, check if a countdown is displayed.")
+    @Link(value = "https://www.youtube.com/")
     @Test(dataProvider = "searchSentenceData")
     public void checkLongestVideoRewind(final String searchText) throws Exception {
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());

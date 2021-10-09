@@ -13,7 +13,7 @@
   <properties>
     	<!-- - - - - - Credentionals - - - - - -->
 		<application.password>null123</application.password>
-		<application.test.xml>testng_bdd.xml</application.test.xml>
+		<application.test.xml>suite1.xml</application.test.xml>
 		<resources.folder>src/test/resources</resources.folder>
 		<!-- - - - - - Encoding - - - - - -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -305,7 +305,7 @@
 					<exclude>**/AppTest.java</exclude>
 					</excludes>
 					<suiteXmlFiles>
-						<suiteXmlFile>testng.xml</suiteXmlFile>
+						<!-- <suiteXmlFile>suite1.xml</suiteXmlFile> -->
 						<!-- <suiteXmlFile>testng2.xml</suiteXmlFile> -->
 						<suiteXmlFile>${application.test.xml}</suiteXmlFile>
 					</suiteXmlFiles>
