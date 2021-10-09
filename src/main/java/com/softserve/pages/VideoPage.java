@@ -15,7 +15,7 @@ import org.openqa.selenium.support.FindBy;
 import com.softserve.utils.RegexUtils;
 
 public class VideoPage extends BasePage {
-    
+
     @FindBy(id = "search-icon-legacy")
     protected WebElement searchButton;
 
@@ -39,7 +39,7 @@ public class VideoPage extends BasePage {
     @FindBy(css = ".video-stream")
     protected WebElement videoStream;
 
-    // ytp-ad-preview-container if has css style: display: none
+    // ytp-ad-preview-container
     @FindBy(css = ".ytp-ad-preview-container")
     protected WebElement adVideo;
 
@@ -50,6 +50,9 @@ public class VideoPage extends BasePage {
     // .ytp-ad-text.ytp-ad-preview-text
     @FindBy(css = ".ytp-ad-text.ytp-ad-preview-text")
     protected WebElement skipAdVideo2;
+    
+    @FindBy(css = ".ytp-ad-skip-button ytp-button")
+    protected WebElement skipAdVideo3;
 
     // title
     @FindBy(css = "h1.title.ytd-video-primary-info-renderer")
@@ -62,6 +65,12 @@ public class VideoPage extends BasePage {
     // youtube premium pop-up Skip trial button
     @FindBy(css = "ytd-button-renderer#dismiss-button tp-yt-paper-button>yt-formatted-string")
     protected WebElement skipTrialButton;
+    
+    @FindBy(css = "#dismiss-button tp-yt-paper-button#button")
+    protected WebElement skipTrialButton2;
+    
+    @FindBy(css = "tp-yt-paper-dialog #dismiss-button")
+    protected WebElement skipTrialButton3;
 
     // play button
     @FindBy(css = ".ytp-play-button")
@@ -82,6 +91,9 @@ public class VideoPage extends BasePage {
     // next video countdown
     @FindBy(css = ".ytp-autonav-endscreen-upnext-header>span")
     protected WebElement nextVideoCountdown;
+    
+    @FindBy(css = "a.ytp-autonav-endscreen-upnext-button.ytp-autonav-endscreen-upnext-play-button")
+    protected WebElement nextRecommendedVideo;
 
     private Actions actionProvider;
 
@@ -102,8 +114,9 @@ public class VideoPage extends BasePage {
 
     public void skipAdVideo() {
         try {
+            wait.visibilityOfWebElement(adInfo);
             while (adInfo.isDisplayed()) {
-                if (RegexUtils.getTime(durationTime.getText()) > 15) {
+                if (getDuration() > 15) {
                     moveMouse(skipAdVideo2);
                     wait.elementToBeClickable(skipAdVideo2);
                     skipAdVideo2.click();
@@ -119,11 +132,9 @@ public class VideoPage extends BasePage {
 
     public void skipTrial() {
         try {
-            moveMouse(skipTrialButton);
-            if (skipTrialButton.isDisplayed()) {
-                wait.elementToBeClickable(skipTrialButton);
-                moveMouse(skipAdVideo2);
-                skipTrialButton.click();
+            if (skipTrialButton2.isDisplayed()) {
+                wait.elementToBeClickable(skipTrialButton2);
+                skipTrialButton2.click();
             }
         } catch (Exception e) {
             System.err.println("skipTrialButton Element not present");
@@ -132,9 +143,10 @@ public class VideoPage extends BasePage {
 
     public void rewindToEnd() {
         skipTrial();
-        moveMouse(autopaly);
+        moveMouse(playButton);
         wait.visibilityOfWebElement(durationTime);
-        moveMouse(videoStream);
+        skipTrial();
+        moveMouse(autopaly);
         int durationVideoTime = RegexUtils.getTime(durationTime.getText());
         while (durationVideoTime - 6 >= RegexUtils.getTime(currentTime.getText())) {
             moveMouse(playButton);
@@ -203,18 +215,19 @@ public class VideoPage extends BasePage {
     }
 
     public boolean isContdownDisplayed() {
-        return nextVideoCountdown.isDisplayed();
-    }
-
-    public VideoPage getNextRecommendedVideo() throws Exception {
         try {
-            moveMouse(nextVideoCountdown);
-            if (nextVideoCountdown.isDisplayed()) {
-                wait.elementIsStalenessOf(nextVideoCountdown);
-            }
+            wait.visibilityOfWebElement(nextVideoCountdown);
+            return nextVideoCountdown.isDisplayed();
         } catch (Exception e) {
             System.err.println("nextVideoCountdown Element not present");
         }
+        return false;
+    }
+
+    public VideoPage getNextRecommendedVideo() throws Exception {
+        isContdownDisplayed();
+        wait.elementToBeClickable(nextRecommendedVideo);
+        nextRecommendedVideo.click();
         return new VideoPage(driver);
     }
 

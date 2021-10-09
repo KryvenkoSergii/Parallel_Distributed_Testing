@@ -21,9 +21,10 @@ public class TestClass2 extends TestRunner {
     @DataProvider(parallel = true)
     public Object[][] searchSentenceData() {
         return new Object[][] {
-//                new Object[] { "popular places" },
-//                new Object[] { "popular people" },
-                new Object[] { "popular websites" } };
+                new Object[] { "popular places" },
+                new Object[] { "popular people" },
+                new Object[] { "popular websites" } 
+                };
     }
 
     @Epic("Parallel DataProvider and Selenium Grid")

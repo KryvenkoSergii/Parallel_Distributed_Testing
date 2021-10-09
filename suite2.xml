@@ -1,14 +1,14 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
-<suite name="Parallel_Distributed_Testing_Suite1" data-provider-thread-count="2">
+<suite name="Parallel_Distributed_Testing_Suite1" data-provider-thread-count="3">
 
-    <test name="Parallel_Distributed_Testing_Chrome" parallel="methods" thread-count="2">
+    <test name="Parallel_Distributed_Testing_Chrome" parallel="methods" thread-count="3">
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="com.softserve.tests.TestClass2">
                 <methods>
                     <!-- <include name="checkTitleResultsYouTube"/> -->
-                    <!-- <include name="checkShortestVideoRewind"/> -->
+                    <include name="checkShortestVideoRewind"/>
                     <include name="checkLongestVideoRewind"/>
                 </methods>
             </class>
