@@ -13,6 +13,8 @@ import org.testng.ITestResult;
 
 import com.softserve.utils.ExtentManager;
 
+import io.qameta.allure.Attachment;
+
 public class TestListener extends TestRunner implements ITestListener {
 
     private static String getTestMethodName(ITestResult iTestResult) {
@@ -53,18 +55,20 @@ public class TestListener extends TestRunner implements ITestListener {
         takeScreenShot(methodName, getDriver());
 
     }
-    
-    public void takeScreenShot(String methodName, WebDriver driver) {
-        File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+
+    @Attachment(value = "Screenshot on failure", type = "image/png")
+    public byte[] takeScreenShot(String methodName, WebDriver driver) {
+        File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         String filePath = "./test-output/Screenshots/";
-        //The below method will save the screen shot in d drive with test method name 
-           try {
-               FileUtils.copyFile(scrFile, new File(filePath+methodName+driver.hashCode()+".png"));
-               System.out.println("***Placed screen shot in "+filePath+" ***");
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-   }
+        // The below method will save the screen shot in d drive with test method name
+        try {
+            FileUtils.copyFile(scrFile, new File(filePath + methodName + driver.hashCode() + ".png"));
+            System.out.println("***Placed screen shot in " + filePath + " ***");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
@@ -74,5 +78,5 @@ public class TestListener extends TestRunner implements ITestListener {
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
         logger.info("Test failed but it is in defined success ratio " + getTestMethodName(iTestResult));
-    }    
+    }
 }
