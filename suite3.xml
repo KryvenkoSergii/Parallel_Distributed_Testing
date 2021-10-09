@@ -26,4 +26,8 @@
         </classes>
     </test>
     
+    <listeners>
+        <listener class-name="com.softserve.tests.TestListener"></listener>
+    </listeners>
+    
 </suite>

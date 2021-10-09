@@ -8,7 +8,7 @@
             <class name="com.softserve.tests.TestClass2">
                 <methods>
                     <!-- <include name="checkTitleResultsYouTube"/> -->
-                    <include name="checkShortestVideoRewind"/>
+                    <!-- <include name="checkShortestVideoRewind"/> -->
                     <include name="checkLongestVideoRewind"/>
                 </methods>
             </class>
@@ -26,5 +26,9 @@
             </class>
         </classes>
     </test> -->
+    
+    <listeners>
+        <listener class-name="com.softserve.tests.TestListener"></listener>
+    </listeners>
     
 </suite>

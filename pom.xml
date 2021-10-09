@@ -172,6 +172,24 @@
 			<!-- <scope>test</scope> -->
 		</dependency>
 		
+		<dependency>
+	      <groupId>com.aventstack</groupId>
+	      <artifactId>extentreports-testng-adapter</artifactId>
+	      <version>1.2.2</version>
+	      <exclusions>
+	        <exclusion>
+	          <groupId>com.aventstack</groupId>
+	          <artifactId>extentreports</artifactId>
+	        </exclusion>
+	      </exclusions>
+	    </dependency>
+	
+	    <dependency>
+	      <groupId>com.aventstack</groupId>
+	      <artifactId>extentreports</artifactId>
+	      <version>5.0.9</version>
+	    </dependency>
+		
 		<!-- https://github.com/sskorol/test-data-supplier -->
 		<!-- <dependency>
 			<groupId>io.github.sskorol</groupId>

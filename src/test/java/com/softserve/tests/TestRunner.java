@@ -26,7 +26,7 @@ public abstract class TestRunner {
     //
     private static ReadProjectProperties readProjectProperties = new ReadProjectProperties();
     protected static ThreadLocal<RemoteWebDriver> driver = new ThreadLocal<>();
-    private CapabilityFactory capabilityFactory = new CapabilityFactory();
+    protected CapabilityFactory capabilityFactory = new CapabilityFactory();
     //
 
     @AfterClass(alwaysRun = true)
