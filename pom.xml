@@ -182,13 +182,23 @@
 	          <artifactId>extentreports</artifactId>
 	        </exclusion>
 	      </exclusions>
+	      <scope>system</scope>
+	      <systemPath>${project.basedir}/extentreporter/extentreports-4.0.9.jar</systemPath>
 	    </dependency>
 	
 	    <dependency>
 	      <groupId>com.aventstack</groupId>
 	      <artifactId>extentreports</artifactId>
 	      <version>5.0.9</version>
+	      <scope>system</scope>
+	      <systemPath>${project.basedir}/extentreporter/extentreports-4.0.9.jar</systemPath>
 	    </dependency>
+	    
+	    <dependency>
+		    <groupId>org.freemarker</groupId>
+		    <artifactId>freemarker</artifactId>
+		    <version>2.3.23</version>
+		</dependency>
 		
 		<!-- https://github.com/sskorol/test-data-supplier -->
 		<!-- <dependency>

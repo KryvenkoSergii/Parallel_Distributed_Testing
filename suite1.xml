@@ -28,8 +28,8 @@
         </classes>
     </test> -->
     
-    <listeners>
+    <!-- <listeners>
         <listener class-name="com.softserve.tests.TestListener"></listener>
-    </listeners>
+    </listeners> -->
     
 </suite>

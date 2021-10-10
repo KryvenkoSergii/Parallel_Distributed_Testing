@@ -13,9 +13,13 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.softserve.extentreport.ExtentManager;
+import com.softserve.extentreport.ExtentTestManager;
 import com.softserve.pages.HomePage;
-import com.softserve.utils.CapabilityFactory;
 import com.softserve.utils.ReadProjectProperties;
+import com.softserve.webdriver.utils.CapabilityFactory;
 
 import io.qameta.allure.Step;
 
@@ -28,6 +32,8 @@ public abstract class TestRunner {
     protected static ThreadLocal<RemoteWebDriver> driver = new ThreadLocal<>();
     protected CapabilityFactory capabilityFactory = new CapabilityFactory();
     //
+    protected static ExtentTest test;
+    protected static ExtentReports report;
 
     @AfterClass(alwaysRun = true)
     public void tearDownAfterClass() throws Exception {
@@ -36,6 +42,9 @@ public abstract class TestRunner {
         if (driver != null) {
             driver.remove();
         }
+        // Don’t forget to use the flush() method, since the report will not be
+        // generated otherwise.
+//        report.flush();
     }
 
     @BeforeMethod
@@ -44,6 +53,9 @@ public abstract class TestRunner {
         logger.info("lunch setUp() with a browser " + browser);
         driver.set(new RemoteWebDriver(new URL("http://192.168.136.1:4444/wd/hub"), capabilityFactory.getCapabilities(browser)));
         getDriver().get(readProjectProperties.getBaseUrl());
+        //
+        test = ExtentTestManager.startTest("ExtentDemo" + getDriver().hashCode(), "Using browser: " + browser);
+        report = ExtentTestManager.getExtentReports();
     }
 
     @AfterMethod
@@ -51,11 +63,15 @@ public abstract class TestRunner {
         logger.info("lunch tearDown()");
         if (!result.isSuccess()) {
             logger.warn("Test " + result.getName() + " ERROR");
+            test.fail("test" + result.getName() + " ERROR");
             // Take Screenshot, save sourceCode, save to log, prepare report, Return to
             // previous state, logout, etc.
         }
         // logout, get(urlLogout), delete cookie, delete cache
         getDriver().close();
+        // Don’t forget to use the flush() method, since the report will not be
+        // generated otherwise.
+        report.flush();
     }
 
     protected void presentationSleep() {

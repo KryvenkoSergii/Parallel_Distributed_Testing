@@ -1,4 +1,4 @@
-package com.softserve.utils;
+package com.softserve.webdriver.utils;
 
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;

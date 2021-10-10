@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -114,7 +113,7 @@ public class VideoPage extends BasePage {
         }
     }
 
-    @Step(value = "skip AdVideo")
+//    @Step(value = "skip AdVideo")
     public void skipAdVideo() {
         try {
             wait.visibilityOfWebElement(adInfo);
@@ -133,7 +132,7 @@ public class VideoPage extends BasePage {
         moveMouse(playButton);
     }
 
-    @Step(value = "skip Trial")
+//    @Step(value = "skip Trial")
     public void skipTrial() {
         try {
             if (skipTrialButton2.isDisplayed()) {
@@ -145,7 +144,7 @@ public class VideoPage extends BasePage {
         }
     }
 
-    @Step(value = "rewind To End")
+//    @Step(value = "rewind To End")
     public void rewindToEnd() {
         skipTrial();
         moveMouse(playButton);
@@ -159,13 +158,13 @@ public class VideoPage extends BasePage {
         }
     }
 
-    @Step(value = "check is Autopaly On")
+//    @Step(value = "check is Autopaly On")
     public boolean isAutopalyOn() {
         moveMouse(autopaly);
         return autopaly.getAttribute("aria-checked").toString().trim().equalsIgnoreCase("true");
     }
 
-    @Step(value = "check is Autopaly Off")
+//    @Step(value = "check is Autopaly Off")
     public void setAutoplayOff() {
         moveMouse(autopaly);
         if (isAutopalyOn()) {
@@ -174,7 +173,7 @@ public class VideoPage extends BasePage {
         }
     }
 
-    @Step(value = "set Autopaly On")
+//    @Step(value = "set Autopaly On")
     public void setAutoplayOn() {
         moveMouse(playButton);
         if (!isAutopalyOn()) {
@@ -183,7 +182,7 @@ public class VideoPage extends BasePage {
         }
     }
 
-    @Step(value = "get Duration of video")
+//    @Step(value = "get Duration of video")
     public int getDuration() {
         try {
             moveMouse(durationTime);
@@ -197,39 +196,39 @@ public class VideoPage extends BasePage {
         return RegexUtils.getTime(durationTime.getText());
     }
 
-    @Step(value = "get Current Time")
+//    @Step(value = "get Current Time")
     public int getCurrentTime() {
         return RegexUtils.getTime(currentTime.getText());
     }
 
-    @Step(value = "get Title")
+//    @Step(value = "get Title")
     public String getTitle() {
         moveMouse(title);
         wait.visibilityOfWebElement(title);
         return title.getText().trim();
     }
 
-    @Step(value = "get Recommendation Videos Quantity")
+//    @Step(value = "get Recommendation Videos Quantity")
     public int getRecommendationVideosQuantity() {
         return recommendationVideoResults.size();
     }
 
-    @Step(value = "if Next Recommendation Video is Available")
+//    @Step(value = "if Next Recommendation Video is Available")
     public boolean isNextRecommendationVideoAvailable() {
         return recommendationVideoResults.size() > 0;
     }
 
-    @Step(value = "get First Recommended Video Title From List")
+//    @Step(value = "get First Recommended Video Title From List")
     public String getFirstRecommendedVideoTitleFromList() {
         return recommendationVideoResults.get(0).findElement(By.id("video-title")).getText().trim();
     }
 
-    @Step(value = "get First Recommended Video Duration From List")
+//    @Step(value = "get First Recommended Video Duration From List")
     public int getFirstRecommendedVideoDurationFromList() {
         return RegexUtils.getTime(recommendationVideoResults.get(0).findElement(By.id("text")).getText().trim());
     }
 
-    @Step(value = "is Contdown Displayed")
+//    @Step(value = "is Contdown Displayed")
     public boolean isContdownDisplayed() {
         try {
             wait.visibilityOfWebElement(nextVideoCountdown);
@@ -240,7 +239,7 @@ public class VideoPage extends BasePage {
         return false;
     }
 
-    @Step(value = "open Next Recommended Video")
+//    @Step(value = "open Next Recommended Video")
     public VideoPage getNextRecommendedVideo() throws Exception {
         isContdownDisplayed();
         wait.elementToBeClickable(nextRecommendedVideo);
