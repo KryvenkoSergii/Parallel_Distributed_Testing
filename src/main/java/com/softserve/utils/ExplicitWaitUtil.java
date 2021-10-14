@@ -25,9 +25,9 @@ public class ExplicitWaitUtil {
     private static final int PAGE_LOAD_TIMEOUT = 60;
     private static final int ELEMENT_PRESENT_TIMEOUT = 30;
     private static final int ELEMENT_CONDITION_TIMEOUT = 45;
-    private static final int POLLING_INTERVAL = 5;
+    private static final int POLLING_INTERVAL = 2;
     private static final int SCRIPT_TIMEOUT = 90;
-    private static final int CONDITION_MET_TIMEOUT = 120;
+    private static final int CONDITION_MET_TIMEOUT = 30;
     
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static ReadProjectProperties readProjectProperties = new ReadProjectProperties();
@@ -41,7 +41,7 @@ public class ExplicitWaitUtil {
     public ExplicitWaitUtil(WebDriver driver) {
         this.driver = driver;
 //        this.wait = new WebDriverWait(driver, readProjectProperties.geExplicitWaitDelay());
-        this.wait = new WebDriverWait(driver, 30);
+        this.wait = new WebDriverWait(driver, 15);
     }
     
  // Implicit wait - all elements
@@ -96,66 +96,66 @@ public class ExplicitWaitUtil {
     
     public void elementToBeClickable(WebElement webElement) {
         logger.trace("wait until an element is clickable");
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        setImplicitWait(0);
         wait.until(ExpectedConditions
                 .elementToBeClickable(webElement));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setImplicitWait(5);
     }
     
     public void visibilityOfWebElement(WebElement webElement) {
         logger.trace("wait until a webElement is visible");
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        setImplicitWait(0);
         wait.until(ExpectedConditions
                 .visibilityOf(webElement));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setImplicitWait(5);
     }
     
     public void invisibilityOfWebElement(WebElement webElement) {
         logger.trace("wait until a webElement is visible");
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        setImplicitWait(0);
         wait.until(ExpectedConditions
                 .invisibilityOf(webElement));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setImplicitWait(5);
     }
     
     public void presenceOfElementLocated(By locator) {
         logger.trace("wait until an element is present");
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        setImplicitWait(0);
         wait.until(ExpectedConditions
                 .presenceOfElementLocated(locator));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setImplicitWait(5);
     }
     
     public void absenceOfElementLocated(By locator) {
         logger.trace("wait until an element is absence");
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        setImplicitWait(0);
         wait.until(ExpectedConditions.not(ExpectedConditions
                 .presenceOfElementLocated(locator)));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setImplicitWait(5);
     }
     
     public void elementToBeSelected(WebElement webElement) {
         logger.trace("wait until an element is visible");
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        setImplicitWait(0);
         wait.until(ExpectedConditions
                 .elementToBeSelected(webElement));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setImplicitWait(5);
     }
     
     public void elementHasStyleDisplayNone(String selectorXPath) {
         logger.trace("wait until an element has CSS Style");
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        setImplicitWait(0);
         wait.until(ExpectedConditions
                 .presenceOfElementLocated(By.xpath(selectorXPath + "[contains(@style, 'display: none')]")));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setImplicitWait(5);
     }
     
     public void elementIsStalenessOf(WebElement webElement) {
         logger.trace("wait until an element is no longer attached to the DOM");
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        setImplicitWait(0);
         wait.until(ExpectedConditions
                 .stalenessOf(webElement));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        setImplicitWait(5);
     }
     
     public void waitForPageLoadComplete(long timeToWait) {

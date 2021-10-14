@@ -42,18 +42,18 @@ public class VideoPage extends BasePage {
     // ytp-ad-preview-container
     @FindBy(css = ".ytp-ad-preview-container")
     protected WebElement adVideo;
-
-    // .ytp-ad-skip-button-icon
-    @FindBy(css = ".ytp-ad-skip-button-icon")
-    protected WebElement skipAdVideo;
-
-    // .ytp-ad-text.ytp-ad-preview-text
-    @FindBy(css = ".ytp-ad-text.ytp-ad-preview-text")
-    protected WebElement skipAdVideo2;
     
-    @FindBy(css = ".ytp-ad-skip-button ytp-button")
-    protected WebElement skipAdVideo3;
+    // .ytp-ad-player-overlay
+    @FindBy(css = ".ytp-ad-player-overlay")
+    protected WebElement adVideo2;
 
+    // skip ad button
+    // button.ytp-ad-skip-button.ytp-button
+    // button>div.ytp-ad-text.ytp-ad-skip-button-text
+    // span.ytp-ad-skip-button-icon
+    @FindBy(css = "button.ytp-ad-skip-button.ytp-button")
+    protected WebElement skipAdVideo;
+    
     // title
     @FindBy(css = "h1.title.ytd-video-primary-info-renderer")
     protected WebElement title;
@@ -81,6 +81,7 @@ public class VideoPage extends BasePage {
     protected WebElement adInfo;
 
     // ad countdown
+    // .ytp-ad-preview-container.countdown-next-to-thumbnail
     @FindBy(css = ".countdown-next-to-thumbnail")
     protected WebElement adCountdown;
 
@@ -92,6 +93,10 @@ public class VideoPage extends BasePage {
     @FindBy(css = ".ytp-autonav-endscreen-upnext-header>span")
     protected WebElement nextVideoCountdown;
     
+    // quantity views
+    @FindBy(css = ".view-count.style-scope.ytd-video-view-count-renderer")
+    protected WebElement viewCount;
+    
     @FindBy(css = "a.ytp-autonav-endscreen-upnext-button.ytp-autonav-endscreen-upnext-play-button")
     protected WebElement nextRecommendedVideo;
 
@@ -100,6 +105,7 @@ public class VideoPage extends BasePage {
     public VideoPage(WebDriver driver) throws Exception {
         super(driver);
         actionProvider = new Actions(driver);
+        wait.awaitFor(() -> driver.getCurrentUrl().contains("youtube.com/watch")); // Waiting with awaitillity
         skipAdVideo();
         skipTrial();
     }
@@ -113,19 +119,24 @@ public class VideoPage extends BasePage {
     }
 
     public void skipAdVideo() {
+        wait.visibilityOfWebElement(videoStream);
         try {
-            wait.visibilityOfWebElement(adInfo);
-            while (adInfo.isDisplayed()) {
-                if (getDuration() > 15) {
-                    moveMouse(skipAdVideo2);
-                    wait.elementToBeClickable(skipAdVideo2);
-                    skipAdVideo2.click();
-                } else {
-                    wait.invisibilityOfWebElement(driver.findElement(By.cssSelector(".ytp-ad-player-overlay-instream-info")));
+            while (adInfo.isDisplayed() || adVideo2.isDisplayed()) {
+                try {
+                    moveMouse(durationTime);
+                    if (adCountdown.isDisplayed() || skipAdVideo.isDisplayed()) {
+                        moveMouse(skipAdVideo);
+                        wait.elementToBeClickable(skipAdVideo);
+                        skipAdVideo.click();
+                    } else {
+                        wait.invisibilityOfWebElement(driver.findElement(By.cssSelector(".ytp-ad-player-overlay-instream-info")));
+                    }
+                } catch (Exception e) {
+                    System.err.println("adCountdown Element not present" + e.getMessage());
                 }
             }
         } catch (Exception e) {
-            System.err.println("adInfo Element not present");
+            System.err.println("adInfo Element not present" + e.getMessage());
         }
         moveMouse(playButton);
     }
@@ -143,6 +154,7 @@ public class VideoPage extends BasePage {
 
     public void rewindToEnd() {
         skipTrial();
+        skipAdVideo();
         moveMouse(playButton);
         wait.visibilityOfWebElement(durationTime);
         skipTrial();
@@ -216,7 +228,8 @@ public class VideoPage extends BasePage {
 
     public boolean isContdownDisplayed() {
         try {
-            wait.visibilityOfWebElement(nextVideoCountdown);
+//            wait.visibilityOfWebElement(nextVideoCountdown);
+            wait.awaitFor(() -> nextVideoCountdown.isDisplayed()); // Waiting with awaitillity
             return nextVideoCountdown.isDisplayed();
         } catch (Exception e) {
             System.err.println("nextVideoCountdown Element not present");
@@ -226,7 +239,6 @@ public class VideoPage extends BasePage {
 
     public VideoPage getNextRecommendedVideo() throws Exception {
         isContdownDisplayed();
-        wait.elementToBeClickable(nextRecommendedVideo);
         nextRecommendedVideo.click();
         return new VideoPage(driver);
     }
