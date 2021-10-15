@@ -12,6 +12,7 @@
 
 # Package Files #
 *.jar
+!/extentreporter/*
 *.war
 *.nar
 *.ear
@@ -84,6 +85,7 @@ hs_err_pid*
 # Ignore log
 # *.log
 *.log.[1234567890]
+/extent-reports/*
 
 # Ignore IntelliJ IDEA Config Files
 *.stackdump
