@@ -5,7 +5,9 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.aventstack.extentreports.ExtentTest;
 import com.softserve.business.SearchVideoActions;
+import com.softserve.extentreport.ExtentTestManager;
 import com.softserve.pages.SearchVideoResult;
 import com.softserve.pages.VideoPage;
 
@@ -50,30 +52,47 @@ public class TestClass2 extends TestRunner {
 //    @Link(value = "https://www.youtube.com/")
     @Test(dataProvider = "searchSentenceData")
     public void checkShortestVideoRewind(final String searchText) throws Exception {
+     // ExtentReports Description
+        ExtentTest test = ExtentTestManager.startTest(Thread.currentThread().getStackTrace()[1].getMethodName(),
+                "Go to TouTube, make a search by " + searchText + ", choose the shortest video from the first 10 results, check if the next video is available.");
+        //
+        test.info("Start test case checkShortestVideoRewind() by the sentence: " + searchText);
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
+        test.info("Open YouTube page");
         searchVideoActions.searchVideo(searchText);
+        test.info("start searching the text: " + searchText);
         SearchVideoResult searchVideoResult = searchVideoActions.getShortestVideoFromFirst10Results();
+        test.info("Get Shortest Video From First 10 Results");
         assertThat(searchVideoActions.get10VideoResults()).hasSize(10)
                 .describedAs("Test failed because list doesn't contain 10 results");
+        test.info("check that number of selected results equal 10");
         VideoPage shortestVideo = searchVideoActions.openVideo(searchVideoResult);
+        test.info("open the Shortest Video");
         // check shortestVideo (name, duration) = searchVideoResult (name, duration)
         assertThat(shortestVideo.getTitle()).isEqualTo(searchVideoResult.getTitle())
                 .describedAs("Test failed opened video hasn't the title like the shortest video");
+        test.info("check shortestVideo (name, duration) = searchVideoResult (name, duration)");
         /*
          * in results a video 'I found out what the most VISITED websites in the world
          * are... ?' has 59sec duration, but if play it the video has 58sec duration!!!!
          */
 //        assertThat(shortestVideo.getDuration()).isEqualTo(searchVideoResult.getDurationSec()).describedAs("Test failed opened video hasn't the shortest time");
-        // check autoPlay is off
         shortestVideo.setAutoplayOff();
+        test.info("set Autoplay Off");
+        // check autoPlay is off
         assertThat(shortestVideo.isAutopalyOn()).isEqualTo(false).describedAs("Test failed in opened video Autoplay is ON");
+        test.info("check that Autoplay is Off");
         shortestVideo.rewindToEnd();
+        test.info("rewind to the end");
         // check if next video available
         assertThat(shortestVideo.isNextRecommendationVideoAvailable()).isEqualTo(true)
                 .describedAs("Test failed next Recommendation Video doesn't Available");
+        test.info("check if next video available");
         // check current timeMark = shortestVideo (duration) +/- 5sec
         assertThat(shortestVideo.getCurrentTime() >= shortestVideo.getDuration() - 5).isEqualTo(true)
                 .describedAs("Test failed current Time mark doesn't equal duration");
+        test.info("check current timeMark = shortestVideo (duration) +/- 5sec");
+        ExtentTestManager.getExtentReports().flush();
     }
 
 //    @Epic("Parallel DataProvider and Selenium Grid")
@@ -84,31 +103,49 @@ public class TestClass2 extends TestRunner {
 //    @Link(value = "https://www.youtube.com/")
     @Test(dataProvider = "searchSentenceData")
     public void checkLongestVideoRewind(final String searchText) throws Exception {
+     // ExtentReports Description
+        ExtentTest test = ExtentTestManager.startTest(Thread.currentThread().getStackTrace()[1].getMethodName(),
+                "Go to TouTube, make a search by " + searchText + ", choose the longest video from the first 10 results, check if the next video is available.");
+        //
+        test.info("Start test case checkLongestVideoRewind() by the sentence: " + searchText);
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
+        test.info("Open YouTube page");
         searchVideoActions.searchVideo(searchText);
+        test.info("start searching the text: " + searchText);
         SearchVideoResult searchVideoResult = searchVideoActions.getLongestVideoFromFirst10Results();
+        test.info("Get Longest Video From First 10 Results");
         assertThat(searchVideoActions.get10VideoResults()).hasSize(10)
                 .describedAs("Test failed because list doesn't contain 10 results");
+        test.info("check that number of selected results equal 10");
         VideoPage longestVideo = searchVideoActions.openVideo(searchVideoResult);
-        // check shortestVideo (name, duration) = searchVideoResult (name, duration)
+        test.info("open the longest Video");
+        // check longestVideo (name, duration) = searchVideoResult (name, duration)
         assertThat(longestVideo.getTitle()).isEqualTo(searchVideoResult.getTitle())
                 .describedAs("Test failed opened video hasn't the title like the shortest video");
-        // check autoPlay is off
+        test.info("check longestVideo (name, duration) = searchVideoResult (name, duration)");
         longestVideo.setAutoplayOn();
+        test.info("set Autoplay On");
+        // check autoPlay is off
         assertThat(longestVideo.isAutopalyOn()).isEqualTo(true).describedAs("Test failed in opened video Autoplay is OFF");
+        test.info("check that Autoplay is On");
         // check if next video available
         assertThat(longestVideo.isNextRecommendationVideoAvailable()).isEqualTo(true)
                 .describedAs("Test failed next Recommendation Video doesn't Available");
+        test.info("check if next video available");
         String nextRecommendedVideoTitle = longestVideo.getFirstRecommendedVideoTitleFromList();
         int nextRecommendedVideoDuration = longestVideo.getFirstRecommendedVideoDurationFromList();
         longestVideo.rewindToEnd();
+        test.info("rewind to the end");
         // check if a countdown is displayed
         assertThat(longestVideo.isContdownDisplayed()).isEqualTo(true).describedAs("Test failed in a countdown isn't display");
+        test.info("check if a countdown is displayed");
         VideoPage nextVideo = longestVideo.getNextRecommendedVideo();
         // check next video has the same title and duration that the video form the list
         assertThat(nextVideo.getTitle()).isEqualTo(nextRecommendedVideoTitle)
                 .describedAs("Test failed opened video hasn't the title like the first recommended video");
 //        assertThat(nextVideo.getDuration()).isEqualTo(nextRecommendedVideoDuration)
 //                .describedAs("Test failed opened video hasn't the first recommended video");
+        test.info("check next video has the same title and duration that the video form the list");
+        ExtentTestManager.getExtentReports().flush();
     }
 }

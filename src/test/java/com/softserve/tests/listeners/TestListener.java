@@ -17,7 +17,7 @@ import com.softserve.utils.ExtentManager;
 import io.qameta.allure.Attachment;
 
 public class TestListener extends TestRunner implements ITestListener {
-
+    
     private static String getTestMethodName(ITestResult iTestResult) {
         return iTestResult.getMethod().getConstructorOrMethod().getName();
     }

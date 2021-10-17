@@ -32,8 +32,8 @@ public abstract class TestRunner {
     protected static ThreadLocal<RemoteWebDriver> driver = new ThreadLocal<>();
     protected CapabilityFactory capabilityFactory = new CapabilityFactory();
     //
-    protected static ExtentTest test;
-    protected static ExtentReports report;
+//    protected ExtentTest test;
+//    protected ExtentReports report;
 
     @AfterClass(alwaysRun = true)
     public void tearDownAfterClass() throws Exception {
@@ -54,8 +54,8 @@ public abstract class TestRunner {
         driver.set(new RemoteWebDriver(new URL("http://192.168.136.1:4444/wd/hub"), capabilityFactory.getCapabilities(browser)));
         getDriver().get(readProjectProperties.getBaseUrl());
         //
-        test = ExtentTestManager.startTest("ExtentDemo" + getDriver().hashCode(), "Using browser: " + browser);
-        report = ExtentTestManager.getExtentReports();
+//        test = ExtentTestManager.startTest("ExtentDemo" + getDriver().hashCode(), "Using browser: " + browser);
+//        report = ExtentTestManager.getExtentReports();
     }
 
     @AfterMethod
@@ -63,15 +63,16 @@ public abstract class TestRunner {
         logger.info("lunch tearDown()");
         if (!result.isSuccess()) {
             logger.warn("Test " + result.getName() + " ERROR");
-            test.fail("test" + result.getName() + " ERROR");
             // Take Screenshot, save sourceCode, save to log, prepare report, Return to
+//            test.fail("details").addScreenCaptureFromPath("screenshot.png");
             // previous state, logout, etc.
         }
         // logout, get(urlLogout), delete cookie, delete cache
         getDriver().close();
+        //
         // Don’t forget to use the flush() method, since the report will not be
         // generated otherwise.
-        report.flush();
+//        report.flush();
     }
 
     protected void presentationSleep() {

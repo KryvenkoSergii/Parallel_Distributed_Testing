@@ -92,6 +92,7 @@ public class HomePage extends BasePage {
     
 //    @Step(value = "get Result List Of Searching by keyword")
     public List<SearchVideoResult> getResultListOfSearch(){
+        logger.info("get Result List Of Searching by keyword");
         wait.visibilityOfWebElement(filterMenu);
         List<SearchVideoResult> searchVideoResultList = new ArrayList<SearchVideoResult>();
         for (WebElement result : searchResults) {
@@ -102,6 +103,7 @@ public class HomePage extends BasePage {
     
 //    @Step(value = "get first 10 Results Of Searching by keyword")
     public List<SearchVideoResult> getFirst10ResultsOfSearch(){
+        logger.info("get first 10 Results Of Searching by keyword");
 //        wait.visibilityOfWebElement(filterMenu);
         wait.awaitFor(() -> searchResults.size()>=10); // Waiting with awaitillity
         List<SearchVideoResult> searchVideoResultList = new ArrayList<SearchVideoResult>();
@@ -113,6 +115,7 @@ public class HomePage extends BasePage {
     
 //    @Step(value = "open chosen Video")
     public VideoPage openVideoPage(SearchVideoResult searchVideoResult) throws Exception {
+        logger.info("start openVideoPage()");
         wait.visibilityOfWebElement(filterMenu);
         searchVideoResult.getLink().click();
         VideoPage videoPage = new VideoPage(driver);

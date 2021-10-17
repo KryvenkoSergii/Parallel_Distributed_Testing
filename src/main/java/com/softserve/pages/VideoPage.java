@@ -121,6 +121,7 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "skip AdVideo")
     public void skipAdVideo() {
+        logger.info("start skipAdVideo()");
         wait.visibilityOfWebElement(videoStream);
         try {
             while (adInfo.isDisplayed() || adVideo2.isDisplayed()) {
@@ -128,9 +129,12 @@ public class VideoPage extends BasePage {
                     moveMouse(durationTime);
                     if (adCountdown.isDisplayed() || skipAdVideo.isDisplayed()) {
                         moveMouse(skipAdVideo);
+                        logger.info("wait until elementToBeClickable: skipAdVideo");
                         wait.elementToBeClickable(skipAdVideo);
                         skipAdVideo.click();
+                        logger.info("skipAdVideo click");
                     } else {
+                        logger.info("wait until invisibility Of WebElement: adInfo");
                         wait.invisibilityOfWebElement(driver.findElement(By.cssSelector(".ytp-ad-player-overlay-instream-info")));
                     }
                 } catch (Exception e) {
@@ -145,8 +149,10 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "skip Trial")
     public void skipTrial() {
+        logger.info("start skipTrial()");
         try {
             if (skipTrialButton2.isDisplayed()) {
+                logger.info("wait until elementToBeClickable: skipTrialButton2");
                 wait.elementToBeClickable(skipTrialButton2);
                 skipTrialButton2.click();
             }
@@ -157,13 +163,16 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "rewind To End")
     public void rewindToEnd() {
+        logger.info("start rewindToEnd()");
         skipTrial();
         skipAdVideo();
         moveMouse(playButton);
+        logger.info("wait visibility Of WebElement: durationTime");
         wait.visibilityOfWebElement(durationTime);
         skipTrial();
         moveMouse(autopaly);
         int durationVideoTime = RegexUtils.getTime(durationTime.getText());
+        logger.info("start rewinding");
         while (durationVideoTime - 6 >= RegexUtils.getTime(currentTime.getText())) {
             moveMouse(playButton);
             playButton.sendKeys(Keys.ARROW_RIGHT);
@@ -172,12 +181,14 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "check is Autopaly On")
     public boolean isAutopalyOn() {
+        logger.info("check is Autopaly On");
         moveMouse(autopaly);
         return autopaly.getAttribute("aria-checked").toString().trim().equalsIgnoreCase("true");
     }
 
 //    @Step(value = "check is Autopaly Off")
     public void setAutoplayOff() {
+        logger.info("check is Autopaly Off");
         moveMouse(autopaly);
         if (isAutopalyOn()) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -187,6 +198,7 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "set Autopaly On")
     public void setAutoplayOn() {
+        logger.info("set Autopaly On");
         moveMouse(playButton);
         if (!isAutopalyOn()) {
             JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -196,6 +208,7 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "get Duration of video")
     public int getDuration() {
+        logger.info("start getDuration()");
         try {
             moveMouse(durationTime);
             wait.visibilityOfWebElement(durationTime);
@@ -210,11 +223,13 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "get Current Time")
     public int getCurrentTime() {
+        logger.info("start getCurrentTime()");
         return RegexUtils.getTime(currentTime.getText());
     }
 
 //    @Step(value = "get Title")
     public String getTitle() {
+        logger.info("start getTitle()");
         moveMouse(title);
         wait.visibilityOfWebElement(title);
         return title.getText().trim();
@@ -222,28 +237,34 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "get Recommendation Videos Quantity")
     public int getRecommendationVideosQuantity() {
+        logger.info("start getRecommendationVideosQuantity()");
         return recommendationVideoResults.size();
     }
 
 //    @Step(value = "if Next Recommendation Video is Available")
     public boolean isNextRecommendationVideoAvailable() {
+        logger.info("start isNextRecommendationVideoAvailable()");
         return recommendationVideoResults.size() > 0;
     }
 
 //    @Step(value = "get First Recommended Video Title From List")
     public String getFirstRecommendedVideoTitleFromList() {
+        logger.info("start getFirstRecommendedVideoTitleFromList()");
         return recommendationVideoResults.get(0).findElement(By.id("video-title")).getText().trim();
     }
 
 //    @Step(value = "get First Recommended Video Duration From List")
     public int getFirstRecommendedVideoDurationFromList() {
+        logger.info("start getFirstRecommendedVideoDurationFromList()");
         return RegexUtils.getTime(recommendationVideoResults.get(0).findElement(By.id("text")).getText().trim());
     }
 
 //    @Step(value = "is Contdown Displayed")
     public boolean isContdownDisplayed() {
+        logger.info("start isContdownDisplayed()");
         try {
 //          wait.visibilityOfWebElement(nextVideoCountdown);
+            logger.info(" wait visibility Of WebElement: nextVideoCountdown");
             wait.awaitFor(() -> nextVideoCountdown.isDisplayed()); // Waiting with awaitillity
             return nextVideoCountdown.isDisplayed();
         } catch (Exception e) {
@@ -254,8 +275,10 @@ public class VideoPage extends BasePage {
 
 //    @Step(value = "open Next Recommended Video")
     public VideoPage getNextRecommendedVideo() throws Exception {
+        logger.info("start getNextRecommendedVideo()");
         isContdownDisplayed();
         nextRecommendedVideo.click();
+        logger.info("click nextRecommendedVideo");
         return new VideoPage(driver);
     }
 }

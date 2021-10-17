@@ -28,8 +28,9 @@
         </classes>
     </test> -->
     
-    <!-- <listeners>
-        <listener class-name="com.softserve.tests.TestListener"></listener>
-    </listeners> -->
+    <listeners>
+        <listener class-name="com.softserve.tests.listeners.TestListener"/>
+        <listener class-name="com.softserve.tests.listeners.AnnotationTransformer"/>
+    </listeners>
     
 </suite>
