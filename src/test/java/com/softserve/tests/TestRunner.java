@@ -32,8 +32,7 @@ public abstract class TestRunner {
     protected static ThreadLocal<RemoteWebDriver> driver = new ThreadLocal<>();
     protected CapabilityFactory capabilityFactory = new CapabilityFactory();
     //
-//    protected ExtentTest test;
-//    protected ExtentReports report;
+    protected ExtentTest test;
 
     @AfterClass(alwaysRun = true)
     public void tearDownAfterClass() throws Exception {
@@ -54,8 +53,8 @@ public abstract class TestRunner {
         driver.set(new RemoteWebDriver(new URL("http://192.168.136.1:4444/wd/hub"), capabilityFactory.getCapabilities(browser)));
         getDriver().get(readProjectProperties.getBaseUrl());
         //
-//        test = ExtentTestManager.startTest("ExtentDemo" + getDriver().hashCode(), "Using browser: " + browser);
-//        report = ExtentTestManager.getExtentReports();
+//        test = ExtentTestManager.startTest(getDriver().toString(),
+//                "Go to TouTube, make a search by sentence, compare the title results with the search words.");
     }
 
     @AfterMethod
@@ -72,7 +71,7 @@ public abstract class TestRunner {
         //
         // Don’t forget to use the flush() method, since the report will not be
         // generated otherwise.
-//        report.flush();
+//        ExtentTestManager.getExtentReports().flush();
     }
 
     protected void presentationSleep() {

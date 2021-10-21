@@ -7,13 +7,6 @@ import com.aventstack.extentreports.ExtentTest;
 import com.softserve.business.SearchVideoActions;
 import com.softserve.extentreport.ExtentTestManager;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
-
 public class TestClass1 extends TestRunner {
 
 //    @Epic("Parallel excution using TestNG Selenium Grid")
