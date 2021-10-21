@@ -1,6 +1,7 @@
 package com.softserve.tests;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -8,6 +9,7 @@ import org.testng.annotations.Test;
 import com.softserve.business.SearchVideoActions;
 import com.softserve.pages.SearchVideoResult;
 import com.softserve.pages.VideoPage;
+import com.softserve.utils.Retry;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -48,7 +50,7 @@ public class TestClass2 extends TestRunner {
     @Description("Go to TouTube, make a search by {0}, choose the shortest video from the first 10 results, check if the next video is available.")
     @Story(value = "Go to TouTube, make a search by {0}, choose the shortest video from the first 10 results, check if the next video is available.")
     @Link(value = "https://www.youtube.com/")
-    @Test(dataProvider = "searchSentenceData")
+    @Test(dataProvider = "searchSentenceData", retryAnalyzer = Retry.class)
     public void checkShortestVideoRewind(final String searchText) throws Exception {
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
         searchVideoActions.searchVideo(searchText);
@@ -82,7 +84,7 @@ public class TestClass2 extends TestRunner {
     @Description("Go to TouTube, make a search by {0}, choose the longest video from the first 10 results, check if the next video is available, check if a countdown is displayed.")
     @Story(value = "Go to TouTube, make a search by {0}, choose the longest video from the first 10 results, check if the next video is available, check if a countdown is displayed.")
     @Link(value = "https://www.youtube.com/")
-    @Test(dataProvider = "searchSentenceData")
+    @Test(dataProvider = "searchSentenceData", retryAnalyzer = Retry.class)
     public void checkLongestVideoRewind(final String searchText) throws Exception {
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
         searchVideoActions.searchVideo(searchText);

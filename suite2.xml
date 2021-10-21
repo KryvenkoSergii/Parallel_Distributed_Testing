@@ -29,6 +29,7 @@
     
     <listeners>
         <listener class-name="com.softserve.tests.TestListener"></listener>
+        <listener class-name="com.softserve.utils.AnnotationTransformer"/>
     </listeners>
     
 </suite>
