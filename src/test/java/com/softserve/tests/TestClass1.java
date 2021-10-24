@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.softserve.business.SearchVideoActions;
+import com.softserve.utils.Retry;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -19,7 +20,7 @@ public class TestClass1 extends TestRunner {
     @Severity(SeverityLevel.TRIVIAL)
     @Description("Go to TouTube, make a search by sentence 'popular music', compare the title results with the search words.")
     @Story(value = "Go to TouTube, make a search by sentence, compare the title results with the search words.")
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void checkPopularMusic() {
         final String searchText = "popular music";
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
@@ -34,7 +35,7 @@ public class TestClass1 extends TestRunner {
     @Severity(SeverityLevel.TRIVIAL)
     @Description("Go to TouTube, make a search by sentence 'popular movies', compare the title results with the search words.")
     @Story(value = "Go to TouTube, make a search by sentence, compare the title results with the search words.")
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void checkPopularMovies() {
         final String searchText = "popular movies";
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());

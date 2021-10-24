@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import com.softserve.business.SearchVideoActions;
 import com.softserve.pages.SearchVideoResult;
 import com.softserve.pages.VideoPage;
+import com.softserve.utils.Retry;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
@@ -32,7 +33,7 @@ public class TestClass2 extends TestRunner {
     @Severity(SeverityLevel.TRIVIAL)
     @Description("Go to TouTube, make a search by sentence, compare the title results with the search words.")
     @Story(value = "Go to TouTube, make a search by sentence, compare the title results with the search words.")
-    @Test(dataProvider = "searchSentenceData")
+    @Test(dataProvider = "searchSentenceData", retryAnalyzer = Retry.class)
     public void checkTitleResultsYouTube(final String searchText) {
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
         searchVideoActions.searchVideo(searchText);
@@ -41,7 +42,7 @@ public class TestClass2 extends TestRunner {
                 "result titles don't contain any search words: " + searchText);
     }
 
-    @Test(dataProvider = "searchSentenceData")
+    @Test(dataProvider = "searchSentenceData", retryAnalyzer = Retry.class)
     public void checkShortestVideoRewind(final String searchText) throws Exception {
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
         searchVideoActions.searchVideo(searchText);
@@ -69,7 +70,7 @@ public class TestClass2 extends TestRunner {
                 .describedAs("Test failed current Time mark doesn't equal duration");
     }
 
-    @Test(dataProvider = "searchSentenceData")
+    @Test(dataProvider = "searchSentenceData", retryAnalyzer = Retry.class)
     public void checkLongestVideoRewind(final String searchText) throws Exception {
         SearchVideoActions searchVideoActions = new SearchVideoActions(getDriver());
         searchVideoActions.searchVideo(searchText);
